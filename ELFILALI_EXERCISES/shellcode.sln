@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ex02", "ex02\ex02.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ex03", "ex03\ex03.csproj", "{B968798F-BB3E-4737-B5B5-DEC267D3E540}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bonus01", "bonus01\bonus01.csproj", "{E9052D11-C190-4A2C-A5FA-688D6B83A78C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bonus02", "bonus02\bonus02.csproj", "{72DBAF69-2B63-41EC-8506-149FFE9054BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bonus03", "bonus03\bonus03.csproj", "{EA695306-3951-4663-921D-E355708CE78C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +39,21 @@ Global
 		{B968798F-BB3E-4737-B5B5-DEC267D3E540}.Debug|x64.Build.0 = Debug|x64
 		{B968798F-BB3E-4737-B5B5-DEC267D3E540}.Release|Any CPU.ActiveCfg = Release|x64
 		{B968798F-BB3E-4737-B5B5-DEC267D3E540}.Release|x64.ActiveCfg = Release|x64
+		{E9052D11-C190-4A2C-A5FA-688D6B83A78C}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{E9052D11-C190-4A2C-A5FA-688D6B83A78C}.Debug|x64.ActiveCfg = Debug|x64
+		{E9052D11-C190-4A2C-A5FA-688D6B83A78C}.Debug|x64.Build.0 = Debug|x64
+		{E9052D11-C190-4A2C-A5FA-688D6B83A78C}.Release|Any CPU.ActiveCfg = Release|x64
+		{E9052D11-C190-4A2C-A5FA-688D6B83A78C}.Release|x64.ActiveCfg = Release|x64
+		{72DBAF69-2B63-41EC-8506-149FFE9054BF}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{72DBAF69-2B63-41EC-8506-149FFE9054BF}.Debug|x64.ActiveCfg = Debug|x64
+		{72DBAF69-2B63-41EC-8506-149FFE9054BF}.Debug|x64.Build.0 = Debug|x64
+		{72DBAF69-2B63-41EC-8506-149FFE9054BF}.Release|Any CPU.ActiveCfg = Release|x64
+		{72DBAF69-2B63-41EC-8506-149FFE9054BF}.Release|x64.ActiveCfg = Release|x64
+		{EA695306-3951-4663-921D-E355708CE78C}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{EA695306-3951-4663-921D-E355708CE78C}.Debug|x64.ActiveCfg = Debug|x64
+		{EA695306-3951-4663-921D-E355708CE78C}.Debug|x64.Build.0 = Debug|x64
+		{EA695306-3951-4663-921D-E355708CE78C}.Release|Any CPU.ActiveCfg = Release|x64
+		{EA695306-3951-4663-921D-E355708CE78C}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
