@@ -5,8 +5,6 @@ namespace bonus01
 {
     class Program
     {
-        private const uint InfiniteMillisecondsWaitingTime = 0xFFFFFFFF;
-
         // Importation des fonctions depuis kernel32.dll
 
         [Flags]

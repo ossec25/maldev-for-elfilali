@@ -80,7 +80,7 @@ La stratégie repose sur deux transformations :
 1.  **XOR :** Applique un masque avec une clé secrète pour rendre le shellcode méconnaissable.
 2.  **Base64 :** Transforme le résultat binaire en une chaîne de caractères ASCII standard
 
-### 5.3. Implémentation Technique.
+### 5.3. Implémentation Technique
 J'ai développé une classe utilitaire contenant deux méthodes pour le chiffrement et déchiffrement.
 
 1. **Chiffrement :** Initialise une propriété avec le shellcode chiffré.
@@ -96,3 +96,33 @@ Une fois l'injection réalisée, l'injecteur se termine. Le payload s'exécute d
 
 ### 5.5. Exécution
 > ![alt text](5-5.png)
+
+## 6. Bonus 01 : Exécution du Loader sans CreateThread
+
+### 6.1. Objectif
+L'appel `CreateThread` est très surveillé par les antivirus. L'objectif est d'exécuter le shellcode dans le processus courant sans créer explicitement de thread d'exécution.
+
+### 6.2. Technique : Casting de Pointeur (Delegate)
+Au lieu d'utiliser l'API Windows pour gérer l'exécution, j'ai utilisé une solution inclus dans le langage C# et le framework .NET : le **Marshaling de Délégué**.
+
+La fonction `Marshal.GetDelegateForFunctionPointer` permet de convertir l'adresse mémoire de notre shellcode alloué via `VirtualAlloc` en une fonction appelable.
+
+### 6.3. Implémentation Technique
+Le code ne nécessite plus l'importation de `CreateThread`.
+```csharp
+// Transformation de l'adresse mémoire reservé en fonction exécutable
+ShellcodeFunction shellcodeFunctionRun = Marshal.GetDelegateForFunctionPointer<ShellcodeFunction>(adresseMemoireAllouer);
+
+// Appel direct de la fonction
+shellcodeFunctionRun();
+```
+
+### 6.4. Exécution
+> ![alt text](6-4.png)
+
+
+
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
