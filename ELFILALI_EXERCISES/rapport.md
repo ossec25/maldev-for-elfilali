@@ -14,7 +14,7 @@ Pour mener à bien les différents exercices, l'architecture suivante a été mi
 * **Machine Attaquante :**  WSL
     * Outil utilisé : `msfvenom` pour la génération de la charge utile.
 * **Machine de Développement :** Windows 11.
-* **Machine de Testing :** Windows 11.
+* **Machine de Testing :** Windows 11 (Antivirus désactivé).
 * **IDE :** Visual Studio 2019.
 * **Langage :** C# (.NET Framework 4.7.2).
 
@@ -73,14 +73,13 @@ Une fois l'injection réalisée, l'injecteur se termine. Le payload s'exécute d
 ### 5.1. Objectif
 Contourner la détection de l'antivirus. Les exercices précédents contenaient le shellcode en clair.
 
-### 5.2. Stratégie : Chiffrement XOR + Base64
+### 5.2. Implémentation Technique
 J'ai choisi une approche combinant le chiffrement XOR et l'encodage Base64. 
 
 La stratégie repose sur deux transformations :
 1.  **XOR :** Applique un masque avec une clé secrète pour rendre le shellcode méconnaissable.
 2.  **Base64 :** Transforme le résultat binaire en une chaîne de caractères ASCII standard
 
-### 5.3. Implémentation Technique
 J'ai développé une classe utilitaire contenant deux méthodes pour le chiffrement et déchiffrement.
 
 1. **Chiffrement :** Initialise une propriété avec le shellcode chiffré.
@@ -91,38 +90,49 @@ J'ai développé une classe utilitaire contenant deux méthodes pour le chiffrem
 6.  **Écriture :** `WriteProcessMemory` pour copier le shellcode depuis notre injecteur vers le Notepad.
 7.  **Exécution :** `CreateRemoteThread` pour démarrer l'exécution du shellcode dans le Notepad.
 
-### 5.4. Observations
+### 5.3. Observations
 Une fois l'injection réalisée, l'injecteur se termine. Le payload s'exécute dans `notepad.exe`. Dans le Gestionnaire des tâches, l'utilisation CPU apparaît sous le nom "Notepad", alors que nous avons un code malveillant qui tourne dedans.
 
-### 5.5. Exécution
-> ![alt text](5-5.png)
+### 5.4. Exécution
+> ![alt text](5-4.png)
 
 ## 6. Bonus 01 : Exécution du Loader sans CreateThread
 
 ### 6.1. Objectif
 L'appel `CreateThread` est très surveillé par les antivirus. L'objectif est d'exécuter le shellcode dans le processus courant sans créer explicitement de thread d'exécution.
 
-### 6.2. Technique : Casting de Pointeur (Delegate)
-Au lieu d'utiliser l'API Windows pour gérer l'exécution, j'ai utilisé une solution inclus dans le langage C# et le framework .NET : le **Marshaling de Délégué**.
+### 6.2. Implémentation Technique
+Au lieu d'utiliser l'API Windows pour gérer l'exécution, j'ai utilisé une solution inclus dans le langage C# et son framework .NET : le **Marshaling Delegate**.
 
 La fonction `Marshal.GetDelegateForFunctionPointer` permet de convertir l'adresse mémoire de notre shellcode alloué via `VirtualAlloc` en une fonction appelable.
 
-### 6.3. Implémentation Technique
 Le code ne nécessite plus l'importation de `CreateThread`.
-```csharp
-// Transformation de l'adresse mémoire reservé en fonction exécutable
-ShellcodeFunction shellcodeFunctionRun = Marshal.GetDelegateForFunctionPointer<ShellcodeFunction>(adresseMemoireAllouer);
 
-// Appel direct de la fonction
-shellcodeFunctionRun();
-```
+### 6.3. Exécution
+> ![alt text](6-3.png)
 
-### 6.4. Exécution
-> ![alt text](6-4.png)
+## 7. Bonus 02 : Process Injection Autonome
 
+### 7.1. Objectif
+L'injecteur développé dans l'Exercice 2 nécessitait que le processus cible (ex: `notepad.exe`) soit déjà lancé par l'utilisateur. Si la cible était absente, le programme se terminait.
+L'objectif de ce bonus est de rendre l'injecteur autonome : il doit vérifier la présence du processus cible et le démarrer lui-même s'il est absent.
 
+### 7.2. Implémentation Technique
+J'ai modifié le flux d'exécution pour ajouter une vérification conditionnelle avant l'ouverture du Handle :
 
+1.  **Recherche :** Tentative de récupération du processus via `Process.GetProcessesByName`.
+2.  **Condition :**
+    * **Si trouvé :** On utilise le PID existant.
+    * **Si non trouvé :** On instancie un nouvel objet `Process`, on configure le nom du fichier exécutable, et on le démarre via la méthode `.Start()`.
+3.  **Ouverture :** `OpenProcess` pour obtenir un **Handle** avec tous les droits.
+4.  **Allocation Distante :** `VirtualAllocEx` pour allouer de la mémoire dans le processus cible.
+5.  **Écriture :** `WriteProcessMemory` pour copier le shellcode depuis notre injecteur vers le Notepad.
+6.  **Exécution :** `CreateRemoteThread` pour démarrer l'exécution du shellcode dans le Notepad.
 
-![alt text](image-1.png)
+// Suite standard : OpenProcess -> VirtualAllocEx -> Write -> RemoteThread
 
-![alt text](image-2.png)
+### 7.3. Exécution
+> ![alt text](7-30.png)
+
+> ![alt text](7-31.png)
+
