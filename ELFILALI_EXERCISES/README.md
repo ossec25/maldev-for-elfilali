@@ -146,3 +146,10 @@ Ajout d’une vérification conditionnelle avant l’ouverture du handle :
 > ![alt text](7-31.png)
 
 ## 8. Bonus 3 :
+
+## 9. Conclusion
+
+En tant que développeur Fullstack, ce travail pratique m'a permis de sortir de ma zone de confort du développement web pour manipuler directement la mémoire et les appels système de bas niveau. 
+
+Suite à une grosse angine qui m'a cloué au lit vers la fin de ce travail, je n'ai pas pu m'exercer sur les techniques d'évasion EDR, chose que j'explorerais prochainement.Je peux dire que j'ai une meilleure vision d'introduction dans la mise en place de malware et de la compréhension du fonctionnement interne de l'OS.
+
